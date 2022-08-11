@@ -1,0 +1,41 @@
+server:
+  port: 8081
+
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+
+  datasource:
+    driverClassName: org.postgresql.Driver
+    #DB connection:
+    url: jdbc:postgresql://localhost:5432/test?stringtype=unspecified
+    username: postgres
+    password: admin
+    hikari:
+      connection-timeout: 10000
+      idle-timeout: 10000
+      pool-name: foobar
+      max-lifetime: 120000 # по умолчанию закрывает и обновляет соединения каждые maxLifetime=30 минут
+      maximum-pool-size: 10
+      minimum-idle: 8
+      data-source-properties:
+        currentSchema: foobar
+        networkTimeout: 120000
+        socketTimeout: 60
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,prometheus
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+
+        # перцентиль времени выполнения запросов
+    distribution:
+      percentiles-histogram:
+        "[http.server.requests]": true
